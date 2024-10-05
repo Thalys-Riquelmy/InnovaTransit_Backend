@@ -1,11 +1,12 @@
-package controller;
+package innovaBackend.InnovaTransit.controller;
 
-import model.Rota;
-import service.RotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import innovaBackend.InnovaTransit.model.Rota;
+import innovaBackend.InnovaTransit.service.RotaService;
 
 import java.util.List;
 

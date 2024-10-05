@@ -1,4 +1,4 @@
-package model;
+package innovaBackend.InnovaTransit.model;
 
 import java.time.LocalTime;
 

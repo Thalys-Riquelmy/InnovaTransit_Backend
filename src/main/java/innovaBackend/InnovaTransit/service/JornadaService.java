@@ -1,9 +1,10 @@
-package service;
+package innovaBackend.InnovaTransit.service;
 
-import model.Jornada;
-import repository.JornadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import innovaBackend.InnovaTransit.model.Jornada;
+import innovaBackend.InnovaTransit.repository.JornadaRepository;
 
 import java.util.List;
 import java.util.Optional;

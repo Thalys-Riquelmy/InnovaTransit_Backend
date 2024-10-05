@@ -1,11 +1,12 @@
-package controller;
+package innovaBackend.InnovaTransit.controller;
 
-import model.Veiculo;
-import service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import innovaBackend.InnovaTransit.model.Veiculo;
+import innovaBackend.InnovaTransit.service.VeiculoService;
 
 import java.util.List;
 

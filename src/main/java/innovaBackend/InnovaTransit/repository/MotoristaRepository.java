@@ -1,8 +1,9 @@
-package repository;
+package innovaBackend.InnovaTransit.repository;
 
-import model.Motorista;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import innovaBackend.InnovaTransit.model.Motorista;
 
 @Repository
 public interface MotoristaRepository extends JpaRepository<Motorista, Integer> {

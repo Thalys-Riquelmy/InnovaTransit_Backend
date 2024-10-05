@@ -1,9 +1,10 @@
-package service;
+package innovaBackend.InnovaTransit.service;
 
-import model.Motorista;
-import repository.MotoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import innovaBackend.InnovaTransit.model.Motorista;
+import innovaBackend.InnovaTransit.repository.MotoristaRepository;
 
 import java.util.List;
 import java.util.Optional;

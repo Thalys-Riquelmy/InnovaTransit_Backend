@@ -1,9 +1,10 @@
-package service;
+package innovaBackend.InnovaTransit.service;
 
-import model.FolhaServico;
-import repository.FolhaServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import innovaBackend.InnovaTransit.model.FolhaServico;
+import innovaBackend.InnovaTransit.repository.FolhaServicoRepository;
 
 import java.util.List;
 import java.util.Optional;

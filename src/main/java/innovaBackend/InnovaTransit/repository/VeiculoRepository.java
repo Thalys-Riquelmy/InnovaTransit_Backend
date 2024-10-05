@@ -1,8 +1,9 @@
-package repository;
+package innovaBackend.InnovaTransit.repository;
 
-import model.Veiculo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import innovaBackend.InnovaTransit.model.Veiculo;
 
 @Repository
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {

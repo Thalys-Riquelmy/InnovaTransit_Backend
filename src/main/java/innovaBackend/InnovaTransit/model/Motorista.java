@@ -1,4 +1,4 @@
-package model;
+package innovaBackend.InnovaTransit.model;
 
 import java.time.LocalDate;
 
@@ -22,7 +22,7 @@ import lombok.Setter;
 public class Motorista {
 
 
-@Id
+   @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private int id; 
 

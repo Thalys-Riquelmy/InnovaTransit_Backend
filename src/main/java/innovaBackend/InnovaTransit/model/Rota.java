@@ -1,6 +1,6 @@
-package model;
+package innovaBackend.InnovaTransit.model;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,27 +14,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "folha_servico")
 @Entity
+@Table(name = "rota")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
-public class FolhaServico {
+public class Rota {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	 
-	@Column(nullable = true, length = 150)
-	private String observacao;
-	
-	@Column(nullable = false, length = 50)
-	private String assinatura;
+	   
+	@Column(nullable = false, length = 30)
+	private int curso;
 	
 	@Column(nullable = false, length = 30)
-	private LocalDate dataServico;
-
+	private String tipo;
+	
+	@Column(nullable = false, length = 30)
+	private String evento;
+	
+	@Column(nullable = false, length = 30)
+	private LocalTime horaInicio;
+	
+	@Column(nullable = false, length = 30)
+	private LocalTime horaFim;
+	
+	@Column(nullable = false, length = 30)
+	private String motivoCancelamento;
 }

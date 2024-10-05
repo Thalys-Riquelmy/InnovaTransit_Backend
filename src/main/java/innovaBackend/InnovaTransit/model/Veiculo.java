@@ -1,4 +1,4 @@
-package model;
+package innovaBackend.InnovaTransit.model;
 
 import java.time.LocalDate;
 
@@ -10,17 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity
-@Table(name = "veiculo")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Entity
+@Table(name = "veiculo")
 public class Veiculo {
 
 	@Id
@@ -39,10 +35,10 @@ public class Veiculo {
 	@Column(nullable = false, length = 30)
 	private String marca;
 	
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false)
 	private int anoFabricacao;
 	
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false)
 	private int numPassageiro;
 	
 	@Column(nullable = false, length = 30)

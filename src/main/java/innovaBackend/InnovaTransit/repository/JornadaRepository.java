@@ -1,8 +1,9 @@
-package repository;
+package innovaBackend.InnovaTransit.repository;
 
-import model.Jornada;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import innovaBackend.InnovaTransit.model.Jornada;
 
 @Repository
 public interface JornadaRepository extends JpaRepository<Jornada, Long> {
