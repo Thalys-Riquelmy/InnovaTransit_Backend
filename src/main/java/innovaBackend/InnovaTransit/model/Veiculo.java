@@ -1,7 +1,5 @@
 package innovaBackend.InnovaTransit.model;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,44 +25,15 @@ public class Veiculo {
 	private int numeroVeiculo;
 
 	@Column(nullable = false, length = 30)
-	private String placa;
+	private String hodometroInicial;
 	
 	@Column(nullable = false, length = 30)
-	private String modelo;
+	private String hodometroFinal;
 	
 	@Column(nullable = false, length = 30)
-	private String marca;
-	
-	@Column(nullable = false)
-	private int anoFabricacao;
-	
-	@Column(nullable = false)
-	private int numPassageiro;
+	private String catracaInicial;
 	
 	@Column(nullable = false, length = 30)
-	private String chassi;
-	
-	@Column(nullable = false, length = 30)
-	private String cor;
-	
-	@Column(nullable = false, length = 30)
-	private String tipoCobustivel;
-	
-	@Column(nullable = false, length = 30)
-	private LocalDate dataAquisicao;
-	
-	@Column(nullable = false, length = 30)
-	private String situacao;
-	
-	@Column(nullable = false, length = 30)
-	private String renavam;
-	
-	@Column(nullable = false, length = 30)
-	private int kilometragem;
-	   
-	@Column(nullable = false, length = 30)
-	private LocalDate ultimaManutencao;
-	
-	@Column(nullable = false, length = 30)
-	private boolean veiculoEspecial;
+	private String catracaFinal;
+
 }

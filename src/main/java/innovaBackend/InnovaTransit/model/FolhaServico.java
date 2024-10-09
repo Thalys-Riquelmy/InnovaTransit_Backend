@@ -1,6 +1,8 @@
 package innovaBackend.InnovaTransit.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,11 +32,26 @@ public class FolhaServico {
 	 
 	@Column(nullable = true, length = 150)
 	private String observacao;
-	
-	@Column(nullable = false, length = 50)
-	private String assinatura;
-	
+		
 	@Column(nullable = false, length = 30)
 	private LocalDate dataServico;
+	
+	//hora inicial de execução
+	private LocalTime horaInicial;
+	
+	//hora final de execução
+	private LocalTime horaFinal;
+	
+	//hora inicial programado
+	private LocalTime horarioInicial;
+		
+	//hora final programado
+	private LocalTime horarioFinal;
+	
+	private Motorista motorista;
+	
+	private Veiculo veiculo;
+	
+	private List<Tarefa> tarefas;
 
 }

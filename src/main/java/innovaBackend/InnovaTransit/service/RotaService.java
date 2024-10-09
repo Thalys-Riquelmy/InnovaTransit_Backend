@@ -3,7 +3,7 @@ package innovaBackend.InnovaTransit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import innovaBackend.InnovaTransit.model.Rota;
+import innovaBackend.InnovaTransit.model.Tarefa;
 import innovaBackend.InnovaTransit.repository.RotaRepository;
 
 import java.util.List;
@@ -15,15 +15,15 @@ public class RotaService {
     @Autowired
     private RotaRepository rotaRepository;
 
-    public List<Rota> findAll() {
+    public List<Tarefa> findAll() {
         return rotaRepository.findAll();
     }
 
-    public Optional<Rota> findById(Long id) {
+    public Optional<Tarefa> findById(Long id) {
         return rotaRepository.findById(id);
     }
 
-    public Rota save(Rota rota) {
+    public Tarefa save(Tarefa rota) {
         return rotaRepository.save(rota);
     }
 

@@ -1,0 +1,13 @@
+ [
+	{
+		nome: "Carlos",
+		matricula: 1,
+		email: "crsgyn@gmail.com"
+	},
+	{
+		nome: "Thalys",
+		matricula: 2,
+		email: "thalys@gmail.com"
+	},
+	...
+]

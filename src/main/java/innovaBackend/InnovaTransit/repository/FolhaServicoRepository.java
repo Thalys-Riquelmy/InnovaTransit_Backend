@@ -8,4 +8,6 @@ import innovaBackend.InnovaTransit.model.FolhaServico;
 @Repository
 public interface FolhaServicoRepository extends JpaRepository<FolhaServico, Long> {
 	
+	FolhaServico obterFolhaServico(String matricula);
+	
 }

@@ -1,0 +1,12 @@
+[
+	{
+		numeroVeiculo: 1010,
+		hodometroInicial: 100000,
+		catracaInicial: 0,
+	},
+	{
+		numeroVeiculo: 1020,
+		hodometroInicial: 200000,
+		catracaInicial: 0,
+	}	
+]

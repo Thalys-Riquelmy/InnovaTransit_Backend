@@ -1,0 +1,29 @@
+{
+	dataServico: "2024-10-07",
+	horarioInicial: "08:00",
+	horarioFinal: "18:00",
+	motorista: 1,
+	veiculo: 1010,
+	tarefas: [
+		{
+			evento: "T. PE PELAGIO TRINDADE",
+			horarioInicial: "08:00",
+			horarioFinal: "09:00"
+		},
+		{
+			evento: "T. PE GOIANIRA",
+			horarioInicial: "09:20",
+			horarioFinal: "10:30"
+		},
+		{
+			evento: "T. PE CENTRO GYN",
+			horarioInicial: "10:40",
+			horarioFinal: "11:30"
+		},
+		{
+			evento: "DESCANSO",
+			horarioInicial: "12:00",
+			horarioFinal: "14:00"
+		}	
+	]
+}

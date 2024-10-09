@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import innovaBackend.InnovaTransit.model.FolhaServico;
+import innovaBackend.InnovaTransit.model.Tarefa;
 import innovaBackend.InnovaTransit.repository.FolhaServicoRepository;
 
 import java.util.List;
@@ -30,4 +31,31 @@ public class FolhaServicoService {
     public void deleteById(Long id) {
         folhaServicoRepository.deleteById(id);
     }
+    
+    public void iniciarFolhaDeServico(FolhaServico folhaServico) {
+    	
+    	
+    }
+    
+    public Tarefa inicarTarefa(Tarefa tarefa) {
+    	//TODO
+    	//para primeira tarefa chamar o iniciar folha de servico
+    	//persistir/atualizar repositorio
+    	return tarefa;
+    }
+    
+    public void finalizarTarefa(Tarefa tarefa) {
+    	//TODO
+    	//ao finalizar ultima tarefa finalizar folha de seviço
+    }
+    
+    /*public FolhaServico finalizarFolhaServico(FolhaServico folhaServico) {
+    	
+    }
+    
+    
+    public FolhaServico obterFolhaServicoDoMotorista(String matricula) {
+    	return this.folhaServicoRepository.o
+    }*/
+    
 }

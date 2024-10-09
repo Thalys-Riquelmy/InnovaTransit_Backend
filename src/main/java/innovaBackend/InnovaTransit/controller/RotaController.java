@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import innovaBackend.InnovaTransit.model.Rota;
+import innovaBackend.InnovaTransit.model.Tarefa;
 import innovaBackend.InnovaTransit.service.RotaService;
 
 import java.util.List;
@@ -19,32 +19,32 @@ public class RotaController {
     private RotaService rotaService;
 
     @GetMapping
-    public ResponseEntity<List<Rota>> listarRotas() {
-        List<Rota> rotas = rotaService.findAll();
+    public ResponseEntity<List<Tarefa>> listarRotas() {
+        List<Tarefa> rotas = rotaService.findAll();
         return ResponseEntity.ok(rotas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Rota> obterRotaPorId(@PathVariable Long id) {
+    public ResponseEntity<Tarefa> obterRotaPorId(@PathVariable Long id) {
         return rotaService.findById(id)
                 .map(rota -> ResponseEntity.ok(rota))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Rota> criarRota(@RequestBody Rota rota) {
-        Rota novaRota = rotaService.save(rota);
+    public ResponseEntity<Tarefa> criarRota(@RequestBody Tarefa rota) {
+        Tarefa novaRota = rotaService.save(rota);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaRota);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Rota> atualizarRota(@PathVariable Long id, @RequestBody Rota rotaAtualizada) {
+    public ResponseEntity<Tarefa> atualizarRota(@PathVariable Long id, @RequestBody Tarefa rotaAtualizada) {
         if (!rotaService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
         rotaAtualizada.setId(id);
-        Rota rotaSalva = rotaService.save(rotaAtualizada);
+        Tarefa rotaSalva = rotaService.save(rotaAtualizada);
         return ResponseEntity.ok(rotaSalva);
     }
 

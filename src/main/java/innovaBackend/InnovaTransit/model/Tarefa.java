@@ -15,30 +15,40 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "jornada")
+@Table(name = "rota")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
-public class Jornada {
+public class Tarefa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	   
+	
+	@Column(nullable = false, length = 30)
+	private String tipo;
+	
+	@Column(nullable = false, length = 30)
+	private String evento;
+		
+	@Column(nullable = false, length = 30)
+	private LocalTime horarioFim;
+
+	//hora programada
+	@Column(nullable = false, length = 30)
+	private LocalTime horarioInicio;
+
+	//hora executada
 	@Column(nullable = false, length = 30)
 	private LocalTime horaInicio;
-	
+
 	@Column(nullable = false, length = 30)
-	private LocalTime horaFinal;
-	
+	private LocalTime horaFim;
+
 	@Column(nullable = false, length = 30)
-	private LocalTime horaAbertura;
-	
-	@Column(nullable = false, length = 30)
-	private LocalTime horaFechamento;
+	private String motivoCancelamento;
 	
 	@Column(nullable = false, length = 30)
 	private String hodometroInicial;
@@ -51,4 +61,6 @@ public class Jornada {
 	
 	@Column(nullable = false, length = 30)
 	private String catracaFinal;
+
+	private Boolean cancelado;
 }
