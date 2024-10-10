@@ -7,5 +7,5 @@ import innovaBackend.InnovaTransit.model.Veiculo;
 
 @Repository
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
-    
+    Veiculo findByNumeroVeiculo(int numeroVeiculo);
 }

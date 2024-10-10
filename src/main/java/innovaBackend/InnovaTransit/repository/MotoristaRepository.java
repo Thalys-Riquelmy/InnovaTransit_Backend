@@ -7,5 +7,5 @@ import innovaBackend.InnovaTransit.model.Motorista;
 
 @Repository
 public interface MotoristaRepository extends JpaRepository<Motorista, Integer> {
-    // Aqui você pode adicionar métodos de consulta personalizados, se necessário
+	Motorista findByMatricula(int matricula);
 }

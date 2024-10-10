@@ -10,9 +10,9 @@ import innovaBackend.InnovaTransit.service.VeiculoService;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/veiculo")
-@CrossOrigin(origins = "http://localhost:4200")
+//@RestController
+//@RequestMapping("/api/veiculo")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class VeiculoController {
 
     @Autowired

@@ -10,9 +10,9 @@ import innovaBackend.InnovaTransit.service.MotoristaService;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/motorista")
-@CrossOrigin(origins = "http://localhost:4200")
+//@RestController
+//@RequestMapping("/api/motorista")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class MotoristaController {
 
     @Autowired

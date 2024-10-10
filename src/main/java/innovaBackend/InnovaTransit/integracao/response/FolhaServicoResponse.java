@@ -1,7 +1,5 @@
 package innovaBackend.InnovaTransit.integracao.response;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,20 +15,18 @@ import lombok.NoArgsConstructor;
 public class FolhaServicoResponse {
 
 	private String observacao;
+	
+	private String horaInicial;
+	
+	private String horaFinal;
+	
+	private String horarioInicial;
 		
-	private LocalDate dataServico;
+	private String horarioFinal;
 	
-	private LocalTime horaInicial;
+	private Integer motorista;
 	
-	private LocalTime horaFinal;
-	
-	private LocalTime horarioInicial;
-		
-	private LocalTime horarioFinal;
-	
-	private MotoristaResponse motorista;
-	
-	private VeiculoResponse veiculo;
+	private Integer veiculo;
 	
 	private List<TarefaResponse> tarefas;
 

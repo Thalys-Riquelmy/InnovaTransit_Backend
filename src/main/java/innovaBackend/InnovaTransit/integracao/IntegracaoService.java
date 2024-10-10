@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 
 import innovaBackend.InnovaTransit.integracao.response.FolhaServicoResponse;
 import innovaBackend.InnovaTransit.integracao.response.MotoristaResponse;
-import innovaBackend.InnovaTransit.integracao.response.TesteResponse;
 import innovaBackend.InnovaTransit.integracao.response.VeiculoResponse;
 
 @Service
@@ -36,11 +35,7 @@ public class IntegracaoService {
     public List<VeiculoResponse> getDataVeiculo() {
         return getDataList(BASE_URL + "/veiculo", new ParameterizedTypeReference<List<VeiculoResponse>>() {});
     }
-
-    public TesteResponse getDataTesteResponse() {
-        return getDataSingle(BASE_URL + "/teste", TesteResponse.class);
-    }
-
+    
     private <T> List<T> getDataList(String url, ParameterizedTypeReference<List<T>> responseType) {
         try {
             ResponseEntity<List<T>> response = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
