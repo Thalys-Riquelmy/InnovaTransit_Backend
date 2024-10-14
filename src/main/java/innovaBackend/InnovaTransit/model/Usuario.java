@@ -12,6 +12,10 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 
 @Table(name = "usuario")
 @Data
@@ -20,9 +24,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -32,6 +36,42 @@ public class Usuario {
     @Column(unique = true)
     private String email;
 
-    @Column(length = 30)
+    @Column(length = 80)
     private String senha;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Retorne uma lista de autoridades do usuário, se aplicável
+        return null; // Pode ser implementado conforme necessário
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Implementar conforme necessário
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // Implementar conforme necessário
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Implementar conforme necessário
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // Implementar conforme necessário
+    }
 }

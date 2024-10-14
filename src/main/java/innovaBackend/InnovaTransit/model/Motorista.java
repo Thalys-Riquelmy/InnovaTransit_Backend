@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("MOTORISTA")
 public class Motorista extends Usuario {
 
-	@Column(nullable = false)
+	@Column(length = 30)
     private int matricula;
 }
