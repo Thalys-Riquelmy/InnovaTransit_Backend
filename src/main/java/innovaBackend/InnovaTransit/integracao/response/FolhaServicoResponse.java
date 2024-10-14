@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true) 
 public class FolhaServicoResponse {
 
+	private String data;
+	
 	private String observacao;
 	
 	private String horaInicial;

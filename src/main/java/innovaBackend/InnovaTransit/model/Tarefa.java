@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "rota")
+@Table(name = "tarefa")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -24,40 +24,37 @@ public class Tarefa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, length = 30)
-	private String tipo;
-	
-	@Column(nullable = false, length = 30)
+	@Column(length = 30)
 	private String evento;
 		
-	@Column(nullable = false, length = 30, name = "horario_fim")
+	@Column(length = 30, name = "horario_fim")
 	private LocalTime horarioFim;
 
 	//hora programada
-	@Column(nullable = false, length = 30, name = "horario_inicio")
+	@Column(length = 30, name = "horario_inicio")
 	private LocalTime horarioInicio;
 
 	//hora executada
-	@Column(nullable = false, length = 30, name = "hora_inicio")
+	@Column(length = 30, name = "hora_inicio")
 	private LocalTime horaInicio;
 
-	@Column(nullable = false, length = 30, name = "hora_fim")
+	@Column(length = 30, name = "hora_fim")
 	private LocalTime horaFim;
 
-	@Column(nullable = false, length = 30, name = "motivo_cancelamento")
+	@Column(length = 30, name = "motivo_cancelamento")
 	private String motivoCancelamento;
 	
-	@Column(nullable = false, length = 30, name = "hodometro_inicial")
-	private String hodometroInicial;
+	@Column(length = 30, name = "hodometro_inicial")
+	private int hodometroInicial;
 	
-	@Column(nullable = false, length = 30, name = "hodometro_final")
-	private String hodometroFinal;
+	@Column(length = 30, name = "hodometro_final")
+	private int hodometroFinal;
 	
-	@Column(nullable = false, length = 30, name = "catraca_inicial")
-	private String catracaInicial;
+	@Column(length = 30, name = "catraca_inicial")
+	private int catracaInicial;
 	
-	@Column(nullable = false, length = 30, name = "catraca_final")
-	private String catracaFinal;
+	@Column(length = 30, name = "catraca_final")
+	private int catracaFinal;
 
 	private Boolean cancelado;
 	

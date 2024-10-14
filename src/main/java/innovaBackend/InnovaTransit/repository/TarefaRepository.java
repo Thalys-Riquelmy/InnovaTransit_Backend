@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import innovaBackend.InnovaTransit.model.Tarefa;
 
 @Repository
-public interface RotaRepository extends JpaRepository<Tarefa, Long> {
-	
+public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
+
 }

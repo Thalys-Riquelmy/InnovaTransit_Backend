@@ -14,9 +14,9 @@ public class VeiculoResponse {
 	
 	private int numeroVeiculo;
 
-	private int hodometroInicial;
+	private int hodometro;
 		
-	private int catracaInicial;
+	private int catraca;
 	
 
 }

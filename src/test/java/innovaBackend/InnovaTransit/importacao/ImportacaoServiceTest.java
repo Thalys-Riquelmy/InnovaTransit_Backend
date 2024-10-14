@@ -15,11 +15,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import innovaBackend.InnovaTransit.model.FolhaServico;
 import innovaBackend.InnovaTransit.model.Motorista;
+import innovaBackend.InnovaTransit.model.Tarefa;
 import innovaBackend.InnovaTransit.model.Veiculo;
 import innovaBackend.InnovaTransit.repository.FolhaServicoRepository;
 import innovaBackend.InnovaTransit.repository.MotoristaRepository;
 import innovaBackend.InnovaTransit.repository.VeiculoRepository;
 import innovaBackend.InnovaTransit.service.ImportacaoService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -36,6 +39,9 @@ public class ImportacaoServiceTest {
 	
 	@Autowired
 	FolhaServicoRepository folhaServicoRepository;
+	
+	@PersistenceContext
+	EntityManager entityManager;
 	
 	@BeforeEach
     public void setUp() {
@@ -64,5 +70,7 @@ public class ImportacaoServiceTest {
 		 this.importacaoService.importarFolhaServico();
 		 List<FolhaServico> response = folhaServicoRepository.findAll();
 		 assertNotNull (response);
+		 List<Tarefa> tarefas = response.get(0).getTarefas();
+		 assertNotNull(tarefas);
 	 }
 }

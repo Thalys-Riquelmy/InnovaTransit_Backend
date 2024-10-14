@@ -11,4 +11,5 @@ import innovaBackend.InnovaTransit.model.FolhaServico;
 @Repository
 public interface FolhaServicoRepository extends JpaRepository<FolhaServico, Long> {
 	List<FolhaServico> findByDataServico(LocalDate dataServico);
+	FolhaServico findByDataServicoAndMotorista_Matricula(LocalDate dataServico, Integer matricula);
 }

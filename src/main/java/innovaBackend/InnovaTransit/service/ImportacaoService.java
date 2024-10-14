@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import innovaBackend.InnovaTransit.integracao.IntegracaoService;
@@ -68,14 +67,14 @@ public class ImportacaoService {
 			Veiculo veiculoExistente = veiculoRepository.findByNumeroVeiculo(veiculo.getNumeroVeiculo());
 			if(veiculoExistente != null) {
 				veiculoExistente.setNumeroVeiculo(veiculo.getNumeroVeiculo());
-				veiculoExistente.setHodometroInicial(veiculo.getHodometroInicial());
-				veiculoExistente.setCatracaInicial(veiculo.getCatracaInicial());
+				veiculoExistente.setHodometro(veiculo.getHodometro());
+				veiculoExistente.setCatraca(veiculo.getCatraca());
 				veiculoRepository.save(veiculoExistente);
 			}else {
 				Veiculo novoVeiculo = new Veiculo();
-				novoVeiculo.setNumeroVeiculo(novoVeiculo.getNumeroVeiculo());
-				novoVeiculo.setCatracaInicial(novoVeiculo.getCatracaInicial());
-				novoVeiculo.setHodometroInicial(novoVeiculo.getHodometroInicial());
+				novoVeiculo.setNumeroVeiculo(veiculo.getNumeroVeiculo());
+				novoVeiculo.setCatraca(veiculo.getCatraca());
+				novoVeiculo.setHodometro(veiculo.getHodometro());
 				veiculoRepository.save(novoVeiculo);  
 			}
 		}
@@ -88,7 +87,7 @@ public class ImportacaoService {
 	    if (folhasServicosExistentes == null || folhasServicosExistentes.isEmpty()) {
 	        List<FolhaServicoResponse> folhasServicosExternas = integracaoService.getDataFolhaServico();
 	        
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
 	        for (FolhaServicoResponse folhaServicoResponse : folhasServicosExternas) {
 	            FolhaServico novaFolhaServico = new FolhaServico();

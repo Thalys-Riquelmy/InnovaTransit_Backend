@@ -17,13 +17,16 @@ public class FolhaServicoController {
 
     @Autowired
     private FolhaServicoService folhaServicoService;
+    
 
+    //Metodo para listar todas folhas de serviços
     @GetMapping
     public ResponseEntity<List<FolhaServico>> listarFolhaServico() {
         List<FolhaServico> folhas = folhaServicoService.findAll();
         return ResponseEntity.ok(folhas);
     }
 
+    //Metodo para buscar folha de serviço pelo id 
     @GetMapping("/{id}")
     public ResponseEntity<FolhaServico> obterFolhaServicoPorId(@PathVariable Long id) {
         return folhaServicoService.findById(id)
@@ -31,12 +34,14 @@ public class FolhaServicoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //Metodo para criar folha de serviço
     @PostMapping
     public ResponseEntity<FolhaServico> criarFolhaServico(@RequestBody FolhaServico folhaServico) {
         FolhaServico novaFolha = folhaServicoService.save(folhaServico);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaFolha);
     }
 
+    //Metodo para atualizar folha de serviço
     @PutMapping("/{id}")
     public ResponseEntity<FolhaServico> atualizarFolhaServico(@PathVariable Long id, @RequestBody FolhaServico folhaServicoAtualizada) {
         if (!folhaServicoService.findById(id).isPresent()) {
@@ -47,7 +52,8 @@ public class FolhaServicoController {
         FolhaServico folhaAtualizada = folhaServicoService.save(folhaServicoAtualizada);
         return ResponseEntity.ok(folhaAtualizada);
     }
-
+    
+    //Metodo para deletar folha
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarFolhaServico(@PathVariable Long id) {
         if (!folhaServicoService.findById(id).isPresent()) {
@@ -57,4 +63,39 @@ public class FolhaServicoController {
         folhaServicoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    
+    //Metodo para obter folha de serviço pela matricula
+    @GetMapping("/obter/{matricula}")
+    public ResponseEntity<FolhaServico> obterFolhaServicoPorMatricula(@PathVariable Integer matricula) {
+        FolhaServico folhaServico = folhaServicoService.obterFolhaServicoDoMotorista(matricula);
+        
+        if (folhaServico != null) {
+            return ResponseEntity.ok(folhaServico);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+//    //Metodo para iniciar folha de serviço
+//    @PostMapping("/iniciar/{id}")
+//    public ResponseEntity<String> iniciarFolhaDeServico(@PathVariable Long id) {
+//        try {
+//            folhaServicoService.iniciarFolhaDeServico(id);
+//            return ResponseEntity.ok("Folha de serviço iniciada com sucesso.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(404).body(e.getMessage());
+//        }
+//    }
+//    
+//    //Metodo para iniciar tarefa
+//    @PostMapping("/iniciar-tarefa/{id}")
+//    public ResponseEntity<String> iniciarTarefa(@PathVariable Long id) {
+//        try {
+//        	folhaServicoService.iniciarTarefa(id);
+//            return ResponseEntity.ok("Tarefa iniciada com sucesso.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(404).body(e.getMessage());
+//        }
+//    }
+
 }

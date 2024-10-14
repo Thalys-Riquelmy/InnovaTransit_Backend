@@ -4,30 +4,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import innovaBackend.InnovaTransit.model.Tarefa;
-import innovaBackend.InnovaTransit.repository.RotaRepository;
+import innovaBackend.InnovaTransit.repository.TarefaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RotaService {
+public class TarefaService {
 
     @Autowired
-    private RotaRepository rotaRepository;
+    private TarefaRepository tarefaRepository;
 
     public List<Tarefa> findAll() {
-        return rotaRepository.findAll();
+        return tarefaRepository.findAll();
     }
 
     public Optional<Tarefa> findById(Long id) {
-        return rotaRepository.findById(id);
+        return tarefaRepository.findById(id);
     }
 
-    public Tarefa save(Tarefa rota) {
-        return rotaRepository.save(rota);
+    public Tarefa save(Tarefa tarefa) {
+        return tarefaRepository.save(tarefa);
     }
 
     public void deleteById(Long id) {
-        rotaRepository.deleteById(id);
+    	tarefaRepository.deleteById(id);
     }
 }

@@ -1,5 +1,7 @@
 package innovaBackend.InnovaTransit.integracao;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,15 @@ public class IntegracaoService {
     private static final String BASE_URL = "http://localhost:3000";
 
     public List<FolhaServicoResponse> getDataFolhaServico() {
-        return getDataList(BASE_URL + "/folha-servico", new ParameterizedTypeReference<List<FolhaServicoResponse>>() {});
+    	// Pega a data atual do sistema
+        LocalDate dataAtual = LocalDate.now();
+        
+        // Define o formato desejado: "dd/MM/yyyy"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
+        // Converte a data atual para String no formato "dd/MM/yyyy"
+        String dataFormatada = dataAtual.format(formatter);
+        return getDataList(BASE_URL + "/folha-servico?data=" + dataFormatada,  new ParameterizedTypeReference<List<FolhaServicoResponse>>() {});
     }
 
     public List<MotoristaResponse> getDataMotorista() {

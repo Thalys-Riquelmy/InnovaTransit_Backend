@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import innovaBackend.InnovaTransit.integracao.response.TarefaResponse;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,11 +32,14 @@ public class FolhaServico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+//	@Column
+//	private LocalDate data;
 	 
-	@Column(nullable = true, length = 150)
+	@Column(length = 150)
 	private String observacao;
 		
-	@Column(nullable = false, length = 30)
+	@Column(length = 30)
 	private LocalDate dataServico;
 	
 	//hora inicial de execução
@@ -55,13 +58,15 @@ public class FolhaServico {
 	@Column(nullable = false, length = 30, name = "horario_final")
 	private LocalTime horarioFinal;
 	
+	private boolean finalizada;
+	
 	@ManyToOne
 	private Motorista motorista;
 	
 	@ManyToOne
 	private Veiculo veiculo;
 	
-	@OneToMany(mappedBy = "folhaServico")
+	@OneToMany(mappedBy = "folhaServico", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Tarefa> tarefas;
 	
 	public void montarTarefas(List<TarefaResponse> tarefasResponse) {
@@ -69,7 +74,7 @@ public class FolhaServico {
 			this.tarefas = new ArrayList<Tarefa>();
 		}
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 		
 		for(TarefaResponse tarefaResponse : tarefasResponse) {
 			Tarefa novaTarefa = new Tarefa();
