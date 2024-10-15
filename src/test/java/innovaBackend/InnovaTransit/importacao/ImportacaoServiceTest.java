@@ -21,7 +21,6 @@ import innovaBackend.InnovaTransit.repository.FolhaServicoRepository;
 import innovaBackend.InnovaTransit.repository.MotoristaRepository;
 import innovaBackend.InnovaTransit.repository.VeiculoRepository;
 import innovaBackend.InnovaTransit.service.ImportacaoService;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @SpringBootTest
@@ -39,9 +38,6 @@ public class ImportacaoServiceTest {
 	
 	@Autowired
 	FolhaServicoRepository folhaServicoRepository;
-	
-	@PersistenceContext
-	EntityManager entityManager;
 	
 	@BeforeEach
     public void setUp() {

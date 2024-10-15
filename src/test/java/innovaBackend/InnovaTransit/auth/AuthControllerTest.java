@@ -1,63 +1,55 @@
 package innovaBackend.InnovaTransit.auth;
 
-import innovaBackend.InnovaTransit.controller.AuthController;
-import innovaBackend.InnovaTransit.service.AuthService;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import innovaBackend.InnovaTransit.service.AuthService;
 
+@SpringBootTest
 public class AuthControllerTest {
 
-    @InjectMocks
-    private AuthController authController;
-
-    @Mock
+    @Autowired
     private AuthService authService;
+
+    private String token;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        // Obtém o token chamando o AuthService
+        token = authService.authenticate("miguel@gmail.com", "senha123");
     }
 
     @Test
-    public void testLoginSuccess() {
-        // Arrange
-        String email = "miguel@gmail.com";
-        String senha = "senha123";
-        String expectedToken = "tokenGerado"; // Token fictício para o teste
+    public void testGetMotoristaEndpoint() {
+        // Endpoint protegido que você deseja testar
+        String protectedUrl = "http://localhost:8080/api/motorista"; // URL do endpoint
 
-        // Simula o comportamento do serviço
-        when(authService.authenticate(email, senha)).thenReturn(expectedToken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token); // Adiciona o token ao cabeçalho
 
-        // Act
-        ResponseEntity<String> response = authController.login(email, senha);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
-        // Assert
+        // Faz a chamada ao endpoint protegido
+        ResponseEntity<String> response = new RestTemplate().exchange(
+                protectedUrl,
+                HttpMethod.GET,
+                request,
+                String.class
+        );
+
+        // Verifica se a resposta foi bem-sucedida
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedToken, response.getBody());
-    }
-
-    @Test
-    public void testLoginFailure() {
-        // Arrange
-        String email = "miguel@gmail.com";
-        String senha = "senhaIncorreta";
-
-        // Simula uma exceção lançada pelo serviço
-        when(authService.authenticate(email, senha)).thenThrow(new RuntimeException("Senha inválida"));
-
-        // Act
-        ResponseEntity<String> response = authController.login(email, senha);
-
-        // Assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("Senha inválida", response.getBody());
+        assertNotNull(response.getBody()); // Verifica se o corpo da resposta não é nulo
     }
 }

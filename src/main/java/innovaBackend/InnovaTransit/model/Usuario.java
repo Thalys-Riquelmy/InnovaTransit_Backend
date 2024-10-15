@@ -2,6 +2,7 @@ package innovaBackend.InnovaTransit.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,9 +14,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Table(name = "usuario")
 @Data
@@ -24,7 +27,7 @@ import java.util.Collection;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_usuario")
-public class Usuario implements UserDetails {
+public abstract class Usuario implements UserDetails { // Tornando a classe abstract
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +42,17 @@ public class Usuario implements UserDetails {
     @Column(length = 80)
     private String senha;
 
+    // O campo tipo_usuario é gerado automaticamente pela anotação @DiscriminatorColumn
+    // Não é necessário mapear esse campo aqui, o Hibernate cuida disso
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Retorne uma lista de autoridades do usuário, se aplicável
-        return null; // Pode ser implementado conforme necessário
+        return List.of(new SimpleGrantedAuthority("ROLE_" + getTipoUsuario())); // Usa o método getTipoUsuario
+    }
+
+    // Método para obter o tipo de usuário
+    public String getTipoUsuario() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
     }
 
     @Override
