@@ -2,11 +2,15 @@ package innovaBackend.InnovaTransit.configSecurity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
@@ -14,8 +18,14 @@ public class JwtUtil {
     private final String SECRET_KEY = "your_secret_key"; // Troque pela sua chave secreta
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hora
 
-    public String generateToken(String email) {
+//    public String generateToken(String email) {
+//        Map<String, Object> claims = new HashMap<>();
+//        return createToken(claims, email);
+//    }
+    
+    public String generateToken(String email, Collection<? extends GrantedAuthority> authorities) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("authorities", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())); // Adiciona as permissões
         return createToken(claims, email);
     }
 
