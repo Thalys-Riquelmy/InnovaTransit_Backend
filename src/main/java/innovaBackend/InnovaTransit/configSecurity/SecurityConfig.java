@@ -25,6 +25,8 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeRequests()
                 .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/primeiro-acesso").permitAll()
+                .requestMatchers("/send-email").permitAll() 
                 .requestMatchers("/api/motorista/**").hasRole("MOTORISTA")
                 .requestMatchers("/api/gerente/**").hasRole("GERENTE")
                 .anyRequest().authenticated()

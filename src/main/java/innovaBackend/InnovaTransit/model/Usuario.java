@@ -42,9 +42,6 @@ public abstract class Usuario implements UserDetails { // Tornando a classe abst
     @Column(length = 80)
     private String senha;
 
-    // O campo tipo_usuario é gerado automaticamente pela anotação @DiscriminatorColumn
-    // Não é necessário mapear esse campo aqui, o Hibernate cuida disso
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + getTipoUsuario())); // Usa o método getTipoUsuario

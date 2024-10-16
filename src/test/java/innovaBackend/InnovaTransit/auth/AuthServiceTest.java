@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import innovaBackend.InnovaTransit.model.Gerente;
 import innovaBackend.InnovaTransit.model.Motorista;
+import innovaBackend.InnovaTransit.repository.GerenteRepository;
 import innovaBackend.InnovaTransit.repository.MotoristaRepository;
 import innovaBackend.InnovaTransit.repository.UsuarioRepository;
 import innovaBackend.InnovaTransit.service.AuthService;
@@ -32,11 +34,15 @@ public class AuthServiceTest {
     
     @Autowired
     private MotoristaRepository motoristaRepository;
+    
+    @Autowired
+    private GerenteRepository gerenteRepository;
 
     @PersistenceContext
     EntityManager entityManager;
 
     private Motorista motorista;
+    private Gerente gerente;
 
     @BeforeEach
     public void setUp() {
@@ -45,6 +51,12 @@ public class AuthServiceTest {
         // Criar um motorista com senha criptografada
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String senhaCriptografada = passwordEncoder.encode("senha123"); // Criptografa a senha
+        
+//        gerente = new Gerente();
+//        gerente.setNome("Caio");
+//        gerente.setEmail("caio@gmail.com");
+//        gerente.setSenha(senhaCriptografada);
+//        gerenteRepository.save(gerente);
 
         // Cria o motorista e salva no banco de dados
 //        motorista = new Motorista();
