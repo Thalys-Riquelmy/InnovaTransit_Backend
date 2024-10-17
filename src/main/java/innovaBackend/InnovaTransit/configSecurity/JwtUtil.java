@@ -17,15 +17,11 @@ public class JwtUtil {
 
     private final String SECRET_KEY = "your_secret_key"; // Troque pela sua chave secreta
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hora
-
-//    public String generateToken(String email) {
-//        Map<String, Object> claims = new HashMap<>();
-//        return createToken(claims, email);
-//    }
     
-    public String generateToken(String email, Collection<? extends GrantedAuthority> authorities) {
+    public String generateToken(String email, Collection<? extends GrantedAuthority> authorities, boolean trocarSenha) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())); // Adiciona as permissões
+        claims.put("trocarSenha", trocarSenha); // Adiciona o campo trocarSenha
         return createToken(claims, email);
     }
 

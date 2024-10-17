@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/auth/primeiro-acesso").permitAll()
+                .requestMatchers("/api/auth/altera-senha").permitAll()
                 .requestMatchers("/send-email").permitAll() 
                 .requestMatchers("/api/motorista/**").hasRole("MOTORISTA")
                 .requestMatchers("/api/gerente/**").hasRole("GERENTE")

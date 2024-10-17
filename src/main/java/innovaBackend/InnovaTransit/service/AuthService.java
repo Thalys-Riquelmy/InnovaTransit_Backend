@@ -43,6 +43,7 @@ public class AuthService implements UserDetailsService {
         Collection<? extends GrantedAuthority> authorities = usuario.getAuthorities();
 
         // Gera o token após autenticação bem-sucedida
-        return jwtUtil.generateToken(email, authorities);
+//        return jwtUtil.generateToken(email, authorities);
+        return jwtUtil.generateToken(email, authorities, usuario.isTrocarSenha());
     }
 }

@@ -41,6 +41,17 @@ public abstract class Usuario implements UserDetails { // Tornando a classe abst
 
     @Column(length = 80)
     private String senha;
+    
+    @Column(name= "trocar_senha")
+    private Boolean trocarSenha = true;
+    
+    public boolean isTrocarSenha() {
+        return trocarSenha;
+    }
+
+    public void setTrocarSenha(boolean trocarSenha) {
+        this.trocarSenha = trocarSenha;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

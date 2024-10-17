@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import innovaBackend.InnovaTransit.configSecurity.SenhaUtil;
 import innovaBackend.InnovaTransit.model.Usuario;
 import innovaBackend.InnovaTransit.repository.UsuarioRepository;
+import innovaBackend.InnovaTransit.responseDTO.AlteraSenhaDTO;
 
 @Service
 public class UsuarioService {
@@ -58,5 +61,25 @@ public class UsuarioService {
             System.out.println("Email não cadastrado: " + email);
         }
     }
+    
+    public void alteraSenha(AlteraSenhaDTO alteraSenhaDTO) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(alteraSenhaDTO.getEmail());
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+
+            // Criptografa a nova senha antes de salvar
+            String senhaCriptografada = new BCryptPasswordEncoder().encode(alteraSenhaDTO.getSenha());
+            usuario.setSenha(senhaCriptografada);
+            usuario.setTrocarSenha(false);
+
+            // Salva o usuário com a nova senha no banco de dados
+            usuarioRepository.save(usuario);
+        } else {
+            // Tratamento caso o usuário não seja encontrado
+            throw new UsernameNotFoundException("Usuário não encontrado");
+        }
+    }
+
 
 }
