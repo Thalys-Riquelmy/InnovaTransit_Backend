@@ -1,6 +1,7 @@
 package innovaBackend.InnovaTransit.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import innovaBackend.InnovaTransit.model.Motorista;
+import innovaBackend.InnovaTransit.responseDTO.MotoristaDTO;
 import innovaBackend.InnovaTransit.service.MotoristaService;
 
 @RestController
 @RequestMapping("/api/motorista")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins ="http://localhost:8101")
 public class MotoristaController {
 
     @Autowired
@@ -55,6 +57,24 @@ public class MotoristaController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @GetMapping("/por-email")
+    public ResponseEntity<MotoristaDTO> buscarPorEmail(@RequestParam String email) {
+        Optional<Motorista> motoristaOptional = motoristaService.buscarMotorista(email);
+        
+        if (motoristaOptional.isPresent()) {
+            // Converter motorista para MotoristaDTO
+            MotoristaDTO motoristaDTO = new MotoristaDTO();
+            Motorista motorista = motoristaOptional.get();
+            motoristaDTO.setId(motorista.getId());
+            motoristaDTO.setNome(motorista.getNome());
+            motoristaDTO.setEmail(motorista.getEmail());
+            motoristaDTO.setMatricula(motorista.getMatricula());
+            return ResponseEntity.ok(motoristaDTO);
+        } else {
+            return ResponseEntity.notFound().build(); // Retorna 404 se não encontrado
         }
     }
 }

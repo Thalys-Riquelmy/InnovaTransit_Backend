@@ -13,5 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MotoristaDTO extends UsuarioDTO{
 
+	private int id;
+    private String nome;
+    private String email;
 	private int matricula;
 }

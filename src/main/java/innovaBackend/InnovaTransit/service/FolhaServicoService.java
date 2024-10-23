@@ -9,10 +9,13 @@ import innovaBackend.InnovaTransit.model.Veiculo;
 import innovaBackend.InnovaTransit.repository.FolhaServicoRepository;
 import innovaBackend.InnovaTransit.repository.TarefaRepository;
 import innovaBackend.InnovaTransit.repository.VeiculoRepository;
+import innovaBackend.InnovaTransit.responseDTO.FolhaServicoDTO;
+import innovaBackend.InnovaTransit.responseDTO.TarefaDTO;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -47,6 +50,31 @@ public class FolhaServicoService {
     public FolhaServico obterFolhaServicoDoMotorista(Integer matricula) {
     	
     	return this.folhaServicoRepository.findByDataServicoAndMotorista_Matricula(LocalDate.now(), matricula);
+    }
+    
+    public FolhaServicoDTO obterFolhaServicoPorDataEMatricula(LocalDate dataServico, Integer matricula) {
+        FolhaServico folhaServico = folhaServicoRepository.findByDataServicoAndMotorista_Matricula(dataServico, matricula);
+        
+        if (folhaServico != null) {
+            // Mapeia a entidade para DTO
+            List<TarefaDTO> tarefasDTO = folhaServico.getTarefas().stream()
+                .map(TarefaDTO::new) // Converte cada Tarefa em TarefaDTO
+                .collect(Collectors.toList());
+
+            return new FolhaServicoDTO(
+                folhaServico.getId(),
+                folhaServico.getObservacao(),
+                folhaServico.getDataServico(),
+                folhaServico.getHoraInicial(),
+                folhaServico.getHoraFinal(),
+                folhaServico.getHorarioInicial(),
+                folhaServico.getHorarioFinal(),
+                folhaServico.isFinalizada(),
+                folhaServico.getVeiculo(),
+                tarefasDTO // Adiciona a lista de TarefaDTOs
+            );
+        }
+        return null; // Retorna nulo se não encontrar
     }
     
     public void iniciarFolhaDeServico(Long id, LocalTime horaInical) {

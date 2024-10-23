@@ -1,7 +1,6 @@
 package innovaBackend.InnovaTransit.configSecurity;
 
 import innovaBackend.InnovaTransit.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +16,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+    private final JwtUtil jwtUtil;
+
+    public SecurityConfig(AuthService authService, JwtUtil jwtUtil) {
+        this.authService = authService;
+        this.jwtUtil = jwtUtil;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,19 +31,21 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/auth/primeiro-acesso").permitAll()
                 .requestMatchers("/api/auth/altera-senha").permitAll()
-                .requestMatchers("/send-email").permitAll() 
+                .requestMatchers("/api/motorista/por-email").permitAll()
+                .requestMatchers("/api/folha-servico/obter-por-matricula-e-data").permitAll()
+                .requestMatchers("/send-email").permitAll()
                 .requestMatchers("/api/motorista/**").hasRole("MOTORISTA")
                 .requestMatchers("/api/gerente/**").hasRole("GERENTE")
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro
+                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
     public JwtRequestFilter jwtRequestFilter() {
-        return new JwtRequestFilter();
+        return new JwtRequestFilter(authService, jwtUtil);
     }
 
     @Bean
@@ -55,3 +61,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
+

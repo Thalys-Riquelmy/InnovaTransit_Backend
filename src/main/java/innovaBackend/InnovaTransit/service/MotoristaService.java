@@ -30,4 +30,8 @@ public class MotoristaService {
     public void deleteById(int id) {
         motoristaRepository.deleteById(id);
     }
+    
+    public Optional<Motorista> buscarMotorista(String email) {
+        return motoristaRepository.findByEmail(email);
+    }
 }

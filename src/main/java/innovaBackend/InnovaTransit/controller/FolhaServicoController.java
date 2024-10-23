@@ -6,13 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import innovaBackend.InnovaTransit.model.FolhaServico;
+import innovaBackend.InnovaTransit.responseDTO.FolhaServicoDTO;
 import innovaBackend.InnovaTransit.service.FolhaServicoService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/folha-servico")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:8101")
 public class FolhaServicoController {
 
     @Autowired
@@ -75,6 +77,22 @@ public class FolhaServicoController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+ // Método para obter folha de serviço pela matrícula e data
+    @GetMapping("/obter-por-matricula-e-data")
+    public ResponseEntity<FolhaServicoDTO> obterFolhaServicoPorMatriculaEData(
+            @RequestParam LocalDate dataServico,
+            @RequestParam Integer matricula) {
+
+        FolhaServicoDTO folhaServicoDTO = folhaServicoService.obterFolhaServicoPorDataEMatricula(dataServico, matricula);
+        
+        if (folhaServicoDTO != null) {
+            return ResponseEntity.ok(folhaServicoDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     
 //    //Metodo para iniciar folha de serviço
 //    @PostMapping("/iniciar/{id}")
