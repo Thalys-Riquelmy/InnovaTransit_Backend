@@ -13,6 +13,7 @@ import innovaBackend.InnovaTransit.responseDTO.FolhaServicoDTO;
 import innovaBackend.InnovaTransit.responseDTO.TarefaDTO;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,6 +59,7 @@ public class FolhaServicoService {
         if (folhaServico != null) {
             // Mapeia a entidade para DTO
             List<TarefaDTO> tarefasDTO = folhaServico.getTarefas().stream()
+            	.sorted(Comparator.comparing(Tarefa::getHorarioInicio)) 
                 .map(TarefaDTO::new) // Converte cada Tarefa em TarefaDTO
                 .collect(Collectors.toList());
 
@@ -77,40 +79,36 @@ public class FolhaServicoService {
         return null; // Retorna nulo se não encontrar
     }
     
-    public void iniciarFolhaDeServico(Long id, LocalTime horaInical) {
+    public void iniciarFolhaDeServico(Long id, LocalTime horaInicial) {
         Optional<FolhaServico> folhaOptional = folhaServicoRepository.findById(id);
-        
+
         if (folhaOptional.isPresent()) {
             FolhaServico folhaServico = folhaOptional.get();
-            
-            // Definir o formato da data esperado
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//            LocalDate dataFormatada = LocalDate.parse(data, formatter);
-            
-            // Definir a hora inicial com a hora atual do dispositivo
-            folhaServico.setHoraInicial(horaInical);
-//            folhaServico.setDataServico(dataFormatada);
-            
+
+            // Atualizar a hora inicial
+            folhaServico.setHoraInicial(horaInicial);
+
             // Salvar as alterações
             folhaServicoRepository.save(folhaServico);
-            System.out.println("Hora inicial salva com sucesso: " + horaInical);
+            System.out.println("Hora inicial salva com sucesso: " + horaInicial);
         } else {
             // Se a folha de serviço não for encontrada, lançar uma exceção
             throw new RuntimeException("Folha de serviço com ID " + id + " não encontrada.");
         }
     }
     
-    public void iniciarTarefa(Long id, LocalTime horaInicial) {
-        // Buscar a folha de serviço pelo ID da tarefa
-        Optional<FolhaServico> folhaOptional = folhaServicoRepository.findById(id);
+    public void iniciarTarefa(Long idTarefa, LocalTime horaInicial) {
+        // Buscar a tarefa pelo ID
+        Optional<Tarefa> tarefaOptional = tarefaRepository.findById(idTarefa);
 
-        if (folhaOptional.isPresent()) {
-            FolhaServico folhaServico = folhaOptional.get();
+        if (tarefaOptional.isPresent()) {
+            Tarefa tarefa = tarefaOptional.get();
 
-//            // Se a folha de serviço ainda não tiver sido iniciada, iniciar
-//            if (folhaServico.getHoraInicial() == null) {
-//                this.iniciarFolhaDeServico(folhaServico.getId(), horaInicial, folhaServico.getData());
-//            }
+            // Buscar a folha de serviço associada à tarefa
+            FolhaServico folhaServico = tarefa.getFolhaServico();
+            if (folhaServico == null) {
+                throw new RuntimeException("Nenhuma folha de serviço associada à tarefa.");
+            }
 
             // Buscar o veículo associado à folha de serviço
             Veiculo veiculo = folhaServico.getVeiculo();
@@ -122,26 +120,21 @@ public class FolhaServicoService {
             int hodometroVeiculo = veiculo.getHodometro();
             int catracaVeiculo = veiculo.getCatraca();
 
-            // Percorrer as tarefas da folha de serviço para iniciar a primeira não iniciada
-            folhaServico.getTarefas().stream()
-                .filter(tarefa -> tarefa.getHoraInicio() == null) // Verificar tarefas que ainda não foram iniciadas
-                .findFirst() // Pegar a primeira tarefa não iniciada
-                .ifPresent(tarefa -> {
-                    // Definir a hora inicial da tarefa
-                    tarefa.setHoraInicio(horaInicial);
+            // Definir a hora inicial da tarefa
+            tarefa.setHoraInicio(horaInicial);
 
-                    // Definir hodômetro e catraca inicial da tarefa com os valores do veículo
-                    tarefa.setHodometroInicial(hodometroVeiculo);
-                    tarefa.setCatracaInicial(catracaVeiculo);
+            // Definir hodômetro e catraca inicial da tarefa com os valores do veículo
+            tarefa.setHodometroInicial(hodometroVeiculo);
+            tarefa.setCatracaInicial(catracaVeiculo);
 
-                    // Salvar as alterações da tarefa e da folha de serviço
-                    folhaServicoRepository.save(folhaServico);
-                    System.out.println("Tarefa iniciada com sucesso na hora: " + tarefa.getHoraInicio());
-                });
+            // Salvar as alterações da tarefa
+            tarefaRepository.save(tarefa); // Salvar a tarefa, agora atualizada
+            System.out.println("Tarefa iniciada com sucesso na hora: " + tarefa.getHoraInicio());
         } else {
-            throw new RuntimeException("Folha de serviço com ID " + id + " não encontrada.");
+            throw new RuntimeException("Tarefa com ID " + idTarefa + " não encontrada.");
         }
     }
+
     
     public void finalizarTarefa(Long id, LocalTime horaFim, Integer hodometroFinal, Integer catracaFinal) {
         // Buscar a tarefa pelo ID
@@ -182,6 +175,25 @@ public class FolhaServicoService {
             // Se a tarefa não for encontrada, lançar uma exceção
             throw new RuntimeException("Tarefa com ID " + id + " não encontrada.");
         }
+    }
+    
+    public void cancelarTarefa(Long id, LocalTime horaFim, String motivoCancelamento) {
+    	Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
+    	
+    	if (tarefaOptional.isPresent()) {
+    		Tarefa tarefa = tarefaOptional.get();
+    		
+    		//Atualiza o motivo cancelamento e marca cancelado como true e grava a hora do cancelamento
+    		tarefa.setMotivoCancelamento(motivoCancelamento);
+    		tarefa.setHoraFim(horaFim);
+    		tarefa.setCancelado(true);
+    		
+    		//Salvar as alterações feitas da tarefa
+    		tarefaRepository.save(tarefa);
+    		
+    	} else {
+    		throw new RuntimeException("Tarefa com o Id" + id + "não encontrada.");
+    	}
     }
 
 

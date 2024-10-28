@@ -9,8 +9,11 @@ import innovaBackend.InnovaTransit.model.FolhaServico;
 import innovaBackend.InnovaTransit.responseDTO.FolhaServicoDTO;
 import innovaBackend.InnovaTransit.service.FolhaServicoService;
 
+import java.awt.PageAttributes.MediaType;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/folha-servico")
@@ -94,26 +97,79 @@ public class FolhaServicoController {
     }
 
     
-//    //Metodo para iniciar folha de serviço
-//    @PostMapping("/iniciar/{id}")
-//    public ResponseEntity<String> iniciarFolhaDeServico(@PathVariable Long id) {
-//        try {
-//            folhaServicoService.iniciarFolhaDeServico(id);
-//            return ResponseEntity.ok("Folha de serviço iniciada com sucesso.");
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.status(404).body(e.getMessage());
-//        }
-//    }
-//    
-//    //Metodo para iniciar tarefa
-//    @PostMapping("/iniciar-tarefa/{id}")
-//    public ResponseEntity<String> iniciarTarefa(@PathVariable Long id) {
-//        try {
-//        	folhaServicoService.iniciarTarefa(id);
-//            return ResponseEntity.ok("Tarefa iniciada com sucesso.");
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.status(404).body(e.getMessage());
-//        }
-//    }
+   // Endpoint para iniciar a folha de serviço
+    @PostMapping(value = "/iniciar", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Map<String, String>> iniciarFolhaDeServico(@RequestBody Map<String, Object> payload) {
+        Long id = ((Number) payload.get("id")).longValue();
+        String horaInicialString = (String) payload.get("horaInicial");
+        LocalTime horaInicial = LocalTime.parse(horaInicialString);
+
+        try {
+            folhaServicoService.iniciarFolhaDeServico(id, horaInicial);
+            return ResponseEntity.ok().body(Map.of("message", "Hora inicial salva com sucesso as: " + horaInicial));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+        }
+    }
+   
+    //Metodo para iniciar tarefa
+    @PostMapping(value= "/iniciar-tarefa", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Map<String, String>> iniciarTarefa(@RequestBody Map<String, Object> payload){
+    	Long id = ((Number) payload.get("id")).longValue();
+    	String horaInicioString = (String) payload.get("horaInicio");
+    	LocalTime horaInicio = LocalTime.parse(horaInicioString);
+    	
+    	try {
+    		folhaServicoService.iniciarTarefa(id, horaInicio);
+    		return ResponseEntity.ok().body(Map.of("message", "Tarefa iniciada com sucesso as: " + horaInicio));
+    	} catch (RuntimeException e) {
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+    	}
+    }
+    
+    @PostMapping(value = "/finalizar-tarefa", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Map<String, String>> finalizarTarefa(@RequestBody Map<String, Object> payload) {
+        Long id = ((Number) payload.get("id")).longValue();
+        String horaFimString = (String) payload.get("horaFim");
+        LocalTime horaFim = LocalTime.parse(horaFimString);
+        Integer hodometroFinal = Integer.parseInt(payload.get("hodometroFinal").toString());
+        Integer catracaFinal = Integer.parseInt(payload.get("catracaFinal").toString());
+
+        try {
+            folhaServicoService.finalizarTarefa(id, horaFim, hodometroFinal, catracaFinal);
+            return ResponseEntity.ok().body(Map.of("message", "Tarefa finalizada com sucesso às: " + horaFim));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+        }
+    }
+    
+    @PostMapping(value = "/cancelar-tarefa", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Map<String, String>> cancelarTarefa(@RequestBody Map<String, Object> payload){
+    	Long id = ((Number) payload.get("id")).longValue();
+    	String motivoCancelamento = (String) payload.get("motivoCancelamento");
+    	String horaFimString = (String) payload.get("horaFim");
+    	LocalTime horaFim = LocalTime.parse(horaFimString); 
+    	
+    	try {
+    		folhaServicoService.cancelarTarefa(id, horaFim, motivoCancelamento);
+    		return ResponseEntity.ok().body(Map.of("message", "Tarefa cancelada com sucesso às: " + horaFim));
+    	} catch (RuntimeException e) {
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+    	}
+    }
+    
+    @PostMapping(value = "/finalizar", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Map<String, String>> finalizarFolhaDeServico(@RequestBody Map<String, Object> payload){
+    	Long id = ((Number) payload.get("id")).longValue();
+    	String horaFimString = (String) payload.get("horaFim");
+    	LocalTime horaFim = LocalTime.parse(horaFimString); 
+    	
+    	try {
+    		folhaServicoService.finalizarFolhaServico(id, horaFim);
+    		return ResponseEntity.ok().body(Map.of("message", "Folha de Serviço finalizada com sucesso às: " + horaFim));
+    	} catch (RuntimeException e) {
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+    	}
+    }
 
 }

@@ -1,6 +1,9 @@
 package innovaBackend.InnovaTransit.configSecurity;
 
 import innovaBackend.InnovaTransit.service.AuthService;
+
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +39,12 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/altera-senha").permitAll()
                 .requestMatchers("/api/motorista/por-email").permitAll()
                 .requestMatchers("/api/folha-servico/obter-por-matricula-e-data").permitAll()
+                .requestMatchers("/api/folha-servico/iniciar").permitAll()
+                .requestMatchers("/api/folha-servico/iniciar-tarefa").permitAll()
+                .requestMatchers("/api/folha-servico/finalizar-tarefa").permitAll()
+                .requestMatchers("/api/folha-servico/cancelar-tarefa").permitAll()
+                .requestMatchers("/api/folha-servico/finalizar").permitAll()
+                .requestMatchers("/api/motorista/**").permitAll()
                 .requestMatchers("/send-email").permitAll()
                 .requestMatchers("/api/motorista/**").hasRole("MOTORISTA")
                 .requestMatchers("/api/gerente/**").hasRole("GERENTE")
@@ -42,7 +54,7 @@ public class SecurityConfig {
 
         return http.build();
     }
-
+    
     @Bean
     public JwtRequestFilter jwtRequestFilter() {
         return new JwtRequestFilter(authService, jwtUtil);
