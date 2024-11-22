@@ -24,7 +24,6 @@ import innovaBackend.InnovaTransit.service.UsuarioService;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:8100")
 public class UsuarioController {
 
 	@Autowired

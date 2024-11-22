@@ -16,6 +16,8 @@ public class FolhaServicoResponse {
 
 	private String data;
 	
+	private String dataServico; 
+	
 	private String observacao;
 	
 	private String horaInicial;

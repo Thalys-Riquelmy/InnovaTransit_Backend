@@ -11,4 +11,6 @@ import innovaBackend.InnovaTransit.model.Motorista;
 public interface MotoristaRepository extends JpaRepository<Motorista, Integer> {
 	Motorista findByMatricula(int matricula);
 	 Optional<Motorista> findByEmail(String email);
+	 
+	 Motorista findByMatriculaAndEmpresaId(int matricula, Long empresaId);
 }

@@ -14,7 +14,6 @@ import innovaBackend.InnovaTransit.service.MotoristaService;
 
 @RestController
 @RequestMapping("/api/motorista")
-@CrossOrigin(origins ="http://localhost:8101")
 public class MotoristaController {
 
     @Autowired
@@ -72,6 +71,7 @@ public class MotoristaController {
             motoristaDTO.setNome(motorista.getNome());
             motoristaDTO.setEmail(motorista.getEmail());
             motoristaDTO.setMatricula(motorista.getMatricula());
+            motoristaDTO.setEmpresa(motorista.getEmpresa());
             return ResponseEntity.ok(motoristaDTO);
         } else {
             return ResponseEntity.notFound().build(); // Retorna 404 se não encontrado

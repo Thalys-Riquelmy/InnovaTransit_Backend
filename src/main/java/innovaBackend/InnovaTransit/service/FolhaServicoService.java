@@ -3,6 +3,7 @@ package innovaBackend.InnovaTransit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import innovaBackend.InnovaTransit.model.Empresa;
 import innovaBackend.InnovaTransit.model.FolhaServico;
 import innovaBackend.InnovaTransit.model.Tarefa;
 import innovaBackend.InnovaTransit.model.Veiculo;
@@ -10,6 +11,7 @@ import innovaBackend.InnovaTransit.repository.FolhaServicoRepository;
 import innovaBackend.InnovaTransit.repository.TarefaRepository;
 import innovaBackend.InnovaTransit.repository.VeiculoRepository;
 import innovaBackend.InnovaTransit.responseDTO.FolhaServicoDTO;
+import innovaBackend.InnovaTransit.responseDTO.MotoristaDTO;
 import innovaBackend.InnovaTransit.responseDTO.TarefaDTO;
 
 import java.time.LocalDate;
@@ -53,16 +55,51 @@ public class FolhaServicoService {
     	return this.folhaServicoRepository.findByDataServicoAndMotorista_Matricula(LocalDate.now(), matricula);
     }
     
+    public List<FolhaServicoDTO> listarFolhasPorData(LocalDate data) {
+        List<FolhaServico> folhasServico = folhaServicoRepository.findByDataServico(data);
+        
+        // Converte cada FolhaServico em FolhaServicoDTO
+        return folhasServico.stream()
+            .map(folhaServico -> {
+                // Mapeia a entidade para DTO, incluindo o Motorista
+                List<TarefaDTO> tarefasDTO = folhaServico.getTarefas().stream()
+                    .sorted(Comparator.comparing(Tarefa::getHorarioInicio))
+                    .map(TarefaDTO::new) // Converte cada Tarefa em TarefaDTO
+                    .collect(Collectors.toList());
+
+                // Converte Motorista para MotoristaDTO
+                MotoristaDTO motoristaDTO = new MotoristaDTO(folhaServico.getMotorista());
+                
+                return new FolhaServicoDTO(
+                    folhaServico.getId(),
+                    folhaServico.getObservacao(),
+                    folhaServico.getDataServico(),
+                    folhaServico.getHoraInicial(),
+                    folhaServico.getHoraFinal(),
+                    folhaServico.getHorarioInicial(),
+                    folhaServico.getHorarioFinal(),
+                    folhaServico.isFinalizada(),
+                    folhaServico.getVeiculo(), // Passando Veiculo diretamente
+                    motoristaDTO, // Passando MotoristaDTO
+                    tarefasDTO // Adiciona a lista de TarefaDTOs
+                );
+            })
+            .collect(Collectors.toList());
+    }
+    
     public FolhaServicoDTO obterFolhaServicoPorDataEMatricula(LocalDate dataServico, Integer matricula) {
         FolhaServico folhaServico = folhaServicoRepository.findByDataServicoAndMotorista_Matricula(dataServico, matricula);
         
         if (folhaServico != null) {
             // Mapeia a entidade para DTO
             List<TarefaDTO> tarefasDTO = folhaServico.getTarefas().stream()
-            	.sorted(Comparator.comparing(Tarefa::getHorarioInicio)) 
+                .sorted(Comparator.comparing(Tarefa::getHorarioInicio)) 
                 .map(TarefaDTO::new) // Converte cada Tarefa em TarefaDTO
                 .collect(Collectors.toList());
 
+            // Converte Motorista para MotoristaDTO
+            MotoristaDTO motoristaDTO = new MotoristaDTO(folhaServico.getMotorista());
+            
             return new FolhaServicoDTO(
                 folhaServico.getId(),
                 folhaServico.getObservacao(),
@@ -73,11 +110,13 @@ public class FolhaServicoService {
                 folhaServico.getHorarioFinal(),
                 folhaServico.isFinalizada(),
                 folhaServico.getVeiculo(),
+                motoristaDTO, // Passando MotoristaDTO
                 tarefasDTO // Adiciona a lista de TarefaDTOs
             );
         }
         return null; // Retorna nulo se não encontrar
     }
+
     
     public void iniciarFolhaDeServico(Long id, LocalTime horaInicial) {
         Optional<FolhaServico> folhaOptional = folhaServicoRepository.findById(id);

@@ -66,6 +66,9 @@ public class FolhaServico {
 	@ManyToOne
 	private Veiculo veiculo;
 	
+	@ManyToOne
+	private Empresa empresa;
+	
 	@OneToMany(mappedBy = "folhaServico", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Tarefa> tarefas;
 	

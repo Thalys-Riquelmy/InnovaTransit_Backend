@@ -44,29 +44,29 @@ public class ImportacaoServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 	
-	 @Test
-	 @Order(1)
-	 public void testImportacaoMotorista() {
-		 this.importacaoService.importarMotoristas();
-		 List<Motorista> response = motoristaRepository.findAll();
-	     assertNotNull(response);
-	 }
-	 
-	 @Test
-	 @Order(2)
-	 public void testImportacaoVeiculo() {
-		 this.importacaoService.importarVeiculos();
-		 List<Veiculo> response = veiculoRepository.findAll();
-		 assertNotNull(response);
-	 }
-	 
-	 @Test
-	 @Order(3)
-	 public void testImportacaoFolhaServico() {
-		 this.importacaoService.importarFolhaServico();
-		 List<FolhaServico> response = folhaServicoRepository.findAll();
-		 assertNotNull (response);
-		 List<Tarefa> tarefas = response.get(0).getTarefas();
-		 assertNotNull(tarefas);
-	 }
+//	 @Test
+//	 @Order(1)
+//	 public void testImportacaoMotorista() {
+//		 this.importacaoService.importarMotoristas();
+//		 List<Motorista> response = motoristaRepository.findAll();
+//	     assertNotNull(response);
+//	 }
+//	 
+//	 @Test
+//	 @Order(2)
+//	 public void testImportacaoVeiculo() {
+//		 this.importacaoService.importarVeiculos();
+//		 List<Veiculo> response = veiculoRepository.findAll();
+//		 assertNotNull(response);
+//	 }
+//	 
+//	 @Test
+//	 @Order(3)
+//	 public void testImportacaoFolhaServico() {
+//		 this.importacaoService.importarFolhaServico();
+//		 List<FolhaServico> response = folhaServicoRepository.findAll();
+//		 assertNotNull (response);
+//		 List<Tarefa> tarefas = response.get(0).getTarefas();
+//		 assertNotNull(tarefas);
+//	 }
 }

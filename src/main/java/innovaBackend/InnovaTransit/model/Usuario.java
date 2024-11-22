@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_usuario")
-public abstract class Usuario implements UserDetails { // Tornando a classe abstract
+public abstract class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +45,9 @@ public abstract class Usuario implements UserDetails { // Tornando a classe abst
     
     @Column(name= "trocar_senha")
     private Boolean trocarSenha = true;
+    
+    @ManyToOne
+    private Empresa empresa;
     
     public boolean isTrocarSenha() {
         return trocarSenha;

@@ -3,43 +3,82 @@ package innovaBackend.InnovaTransit.jobs;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import innovaBackend.InnovaTransit.integracao.IntegracaoService;
 import innovaBackend.InnovaTransit.integracao.response.FolhaServicoResponse;
 import innovaBackend.InnovaTransit.integracao.response.MotoristaResponse;
 import innovaBackend.InnovaTransit.integracao.response.VeiculoResponse;
-
+import innovaBackend.InnovaTransit.service.ImportacaoService;
 
 @Component
-@EnableScheduling
 public class JobAutomatization {
-	
-	@Autowired
-    private IntegracaoService integracaoService;
-	
-//	@Scheduled(cron = "0 0 0 * * ?")
-    public void atualizarDados() {
-        try {        	
-            List<FolhaServicoResponse> folhasServico = integracaoService.getDataFolhaServico();
-            List<MotoristaResponse> motoristas = integracaoService.getDataMotorista();
-            List<VeiculoResponse> veiculos = integracaoService.getDataVeiculo();
 
-            System.out.println("Folhas de serviço: " + folhasServico);
-            System.out.println("Motoristas: " + motoristas);
-            System.out.println("Veículos: " + veiculos);
+    @Autowired
+    private IntegracaoService integracaoService;
+
+    @Autowired
+    private ImportacaoService importacaoService;
+
+    // Atualiza e importa os dados
+//    public void atualizarDados(Long empresaId) {
+//        try {
+//            System.out.println("Atualizando dados para a empresa com ID: " + empresaId);
+//
+//            // Obter os dados da API externa (motoristas, veículos, folhas de serviço)
+//            List<FolhaServicoResponse> folhasServico = integracaoService.getDataFolhaServico(empresaId);
+//            List<MotoristaResponse> motoristas = integracaoService.getDataMotorista(empresaId);
+//            List<VeiculoResponse> veiculos = integracaoService.getDataVeiculo(empresaId);
+//
+//            // Verifique se os dados foram obtidos corretamente antes de prosseguir
+//            if (folhasServico != null && motoristas != null && veiculos != null) {
+//                System.out.println("Dados obtidos com sucesso:");
+//
+//                System.out.println("Folhas de serviço: " + folhasServico);
+//                System.out.println("Motoristas: " + motoristas);
+//                System.out.println("Veículos: " + veiculos);
+//
+//                // Chame o método de importação para salvar os dados no banco
+//                importacaoService.importar(empresaId);
+//                System.out.println("Dados importados para o banco de dados com sucesso.");
+//            } else {
+//                System.out.println("Erro: Dados não obtidos corretamente da API.");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println("Erro ao atualizar dados: " + e.getMessage());
+//        }
+//    }
+    
+    public void atualizarDados(Long empresaId) {
+        try {
+            System.out.println("Atualizando dados para a empresa com ID: " + empresaId);
+
+            // Obter os dados da API externa (motoristas, veículos, folhas de serviço)
+            List<FolhaServicoResponse> folhasServico = integracaoService.getDataFolhaServico(empresaId);
+            List<MotoristaResponse> motoristas = integracaoService.getDataMotorista(empresaId);
+            List<VeiculoResponse> veiculos = integracaoService.getDataVeiculo(empresaId);
+
+            // Verifique se os dados foram obtidos corretamente antes de prosseguir
+            if (folhasServico != null && motoristas != null && veiculos != null) {
+                System.out.println("Dados obtidos com sucesso:");
+
+                System.out.println("Folhas de serviço: " + folhasServico);
+                System.out.println("Motoristas: " + motoristas);
+                System.out.println("Veículos: " + veiculos);
+
+                // Chame o método de importação para salvar os dados no banco
+                importacaoService.importar(empresaId);
+                System.out.println("Dados importados para o banco de dados com sucesso.");
+            } else {
+                System.out.println("Erro: Dados não obtidos corretamente da API.");
+            }
         } catch (Exception e) {
-            e.printStackTrace(); // Mostra a stack trace do erro
+            e.printStackTrace();
             System.err.println("Erro ao atualizar dados: " + e.getMessage());
+            throw e;  // Re-lança a exceção para que ela possa ser capturada no controlador
         }
     }
+
 }
 
-//1: Segundo (preenchido de 0 a 59)
-//2: Minuto (preenchido de 0 a 59)
-//3: Hora (preenchido de 0 a 23)
-//4: Dia (preenchido de 0 a 31)
-//5: Mês (preenchido de 1 a 12)
-//6: Dia da semana (preenchido de 0 a 6)

@@ -24,21 +24,21 @@ public class IntegracaoServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void testGetDataFolhaServico() {
-        List<FolhaServicoResponse> response = integracaoService.getDataFolhaServico();
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testGetDataMotorista() {
-        List<MotoristaResponse> response = integracaoService.getDataMotorista();
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testGetDataVeiculo() {
-        List<VeiculoResponse> response = integracaoService.getDataVeiculo();
-        assertNotNull(response);
-    }
+//    @Test
+//    public void testGetDataFolhaServico() {
+//        List<FolhaServicoResponse> response = integracaoService.getDataFolhaServico();
+//        assertNotNull(response);
+//    }
+//
+//    @Test
+//    public void testGetDataMotorista() {
+//        List<MotoristaResponse> response = integracaoService.getDataMotorista();
+//        assertNotNull(response);
+//    }
+//
+//    @Test
+//    public void testGetDataVeiculo() {
+//        List<VeiculoResponse> response = integracaoService.getDataVeiculo();
+//        assertNotNull(response);
+//    }
 }

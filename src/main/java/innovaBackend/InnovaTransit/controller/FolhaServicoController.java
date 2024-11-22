@@ -1,6 +1,7 @@
 package innovaBackend.InnovaTransit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,21 +15,36 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/folha-servico")
-@CrossOrigin(origins = "http://localhost:8101")
 public class FolhaServicoController {
 
     @Autowired
     private FolhaServicoService folhaServicoService;
     
 
-    //Metodo para listar todas folhas de serviços
+    //Metodo para listar todas folhas de serviços    
     @GetMapping
-    public ResponseEntity<List<FolhaServico>> listarFolhaServico() {
-        List<FolhaServico> folhas = folhaServicoService.findAll();
-        return ResponseEntity.ok(folhas);
+    public ResponseEntity<List<FolhaServicoDTO>> listarFolhaServicoDTO() {
+        // Obtém todas as folhas de serviço e as converte em FolhaServicoDTO
+        List<FolhaServicoDTO> folhasDTO = folhaServicoService.findAll().stream()
+            .map(folha -> new FolhaServicoDTO(folha)) // Supondo que o DTO tenha um construtor que aceite a entidade
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok(folhasDTO);
+    }
+    
+    //Metodo para listar todas folhas por data
+    @GetMapping("/por-data")
+    public ResponseEntity<List<FolhaServicoDTO>> listarFolhasPorData(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+        
+        // Chama o serviço que já retorna uma lista de FolhaServicoDTO
+        List<FolhaServicoDTO> folhasDTO = folhaServicoService.listarFolhasPorData(data);
+
+        return ResponseEntity.ok(folhasDTO); // Retorna a resposta com a lista de FolhaServicoDTO
     }
 
     //Metodo para buscar folha de serviço pelo id 

@@ -5,33 +5,35 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "veiculo")
+@Table(name = "empresa")
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Veiculo {
+@Data
+public class Empresa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, length = 30, name = "numero_veiculo")
-	private int numeroVeiculo;
+	@Column(length = 150)
+	private String nome;
 	
-	@Column(nullable = false, length = 30, name = "hodometro")
-	private int hodometro;
+	@Column(length = 20, unique = true)
+	private String cnpj;
 	
-	@Column(nullable = false, length = 30, name = "catraca")
-	private int catraca;
+	@Column(length = 80, name = "url_busca")
+	private String urlBusca;
 	
-	@ManyToOne
-	private Empresa empresa;
+	@Column (length = 80, name = "api_key")
+	private String apiKey;
+	
+	@Column (length = 80, name = "cron_expression")
+	private String cronExpression;
 
 }
